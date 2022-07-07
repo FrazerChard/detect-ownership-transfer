@@ -27,6 +27,8 @@ The agent behaviour can be verified with the following transactions:
     newOwner: "0xb8da95a3b01a6486f8066c16644596d391586579",
     contractAddress: "0x5eb30edfbc45cbd75664e4f04dfcc5218d114aac"
 }
+
+
 -tx: 0x49d889c424fa9c1989f3712ff0ad9c950935d4af9e5fa419b133d4813e0963ef {
     previousOwner: "0xd00e2b1d6b4a1fcfc1a3b0af195595339d02f951",
     newOwner: "0x0000000000000000000000000000000000000000",
