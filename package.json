@@ -1,5 +1,5 @@
 {
-  "name": "ethereum-detect-ownership-transfer-events",
+  "name": "detect-ownership-transfer-events",
   "version": "0.0.1",
   "description": "Forta Bot that detects when an ownership transfer event has been emitted.",
   "respository": "https://github.com/FrazerChard/detect-ownership-transfer/",
