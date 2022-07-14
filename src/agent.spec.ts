@@ -1,7 +1,6 @@
 import { FindingType, FindingSeverity, Finding, HandleTransaction, createTransactionEvent } from "forta-agent";
-
 import { provideHandleTransaction } from "./agent";
-import { isZeroAddress, zeroAddress } from "ethereumjs-util";
+import { zeroAddress } from "ethereumjs-util";
 import { TRANSFER_OWNER_EVENT } from "./constants";
 
 const testAddress1 = "0x6b51cb10119727a5e5ea3538074fb341f56b09cb";
@@ -50,7 +49,6 @@ describe("contract ownership transfer agent", () => {
       mockTxEvent.filterLog = jest.fn().mockReturnValue([mockOwnershipTransferEvent]);
       const findings = await handleTransaction(mockTxEvent);
 
-      const mockEventName = mockOwnershipTransferEvent.name;
       const mockPreviousOwner = mockOwnershipTransferEvent.args.previousOwner;
       const mockNewOwner = mockOwnershipTransferEvent.args.newOwner;
       const mockContractAddress = mockOwnershipTransferEvent.address;
@@ -58,7 +56,7 @@ describe("contract ownership transfer agent", () => {
       expect(findings).toStrictEqual([
         Finding.fromObject({
           name: "Ownership Transfer Detection",
-          description: `Agent detected ${mockEventName} event.`,
+          description: `Agent detected OwnershipTransferred event.`,
           alertId: "OWNER-TRANSFER-AGENT",
           severity: FindingSeverity.Info,
           type: FindingType.Info,

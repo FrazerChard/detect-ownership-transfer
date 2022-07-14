@@ -13,12 +13,7 @@ export function provideHandleTransaction(): HandleTransaction {
         //RETURN FINDING WHEN OWNERSHIP IS TRANSFERRED
       } else {
         findings.push(
-          createNewFinding(
-            ownershipEvent.name,
-            ownershipEvent.args.previousOwner,
-            ownershipEvent.args.newOwner,
-            ownershipEvent.address
-          )
+          createNewFinding(ownershipEvent.args.previousOwner, ownershipEvent.args.newOwner, ownershipEvent.address)
         );
       }
     });
