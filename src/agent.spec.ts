@@ -1,20 +1,19 @@
-import { FindingType, FindingSeverity, Finding, HandleTransaction, createTransactionEvent, } from "forta-agent";
+import { FindingType, FindingSeverity, Finding, HandleTransaction, createTransactionEvent } from "forta-agent";
 
-import agent from "./agent";
-import { isZeroAddress, zeroAddress, } from "ethereumjs-util";
+import { provideHandleTransaction } from "./agent";
+import { isZeroAddress, zeroAddress } from "ethereumjs-util";
 import { TRANSFER_OWNER_EVENT } from "./constants";
 
 const testAddress1 = "0x6b51cb10119727a5e5ea3538074fb341f56b09cb";
 const testAddress2 = "0x9a1cb10119727a5e5ea3538074fb341f56b05ea";
 const testContractAddress = "0x7f51eb44623745a5e5ea3538074fb341f56b07ef";
 
-
 describe("contract ownership transfer agent", () => {
   let handleTransaction: HandleTransaction;
   const mockTxEvent = createTransactionEvent({} as any);
 
   beforeAll(() => {
-    handleTransaction = agent.handleTransaction;
+    handleTransaction = provideHandleTransaction();
   });
 
   describe("handleTransaction", () => {
@@ -27,9 +26,9 @@ describe("contract ownership transfer agent", () => {
       expect(mockTxEvent.filterLog).toHaveBeenCalledWith(TRANSFER_OWNER_EVENT);
     });
 
-    it ("returns empty findings if there is an OwnershipTransfer event from a zero address", async () => {
-      const mockOwnershipTransferEvent = { args: { previousOwner: zeroAddress(), newOwner: testAddress2, } };
-      
+    it("returns empty findings if there is an OwnershipTransfer event from a zero address", async () => {
+      const mockOwnershipTransferEvent = { args: { previousOwner: zeroAddress(), newOwner: testAddress2 } };
+
       mockTxEvent.filterLog = jest.fn().mockReturnValue([mockOwnershipTransferEvent]);
       const findings = await handleTransaction(mockTxEvent);
 
@@ -38,16 +37,16 @@ describe("contract ownership transfer agent", () => {
       expect(mockTxEvent.filterLog).toHaveBeenCalledWith(TRANSFER_OWNER_EVENT);
     });
 
-    it ("returns a finding if there is an OwnershipTransfer event from a non zero address", async () => {
+    it("returns a finding if there is an OwnershipTransfer event from a non zero address", async () => {
       const mockOwnershipTransferEvent = {
-        name: "OwnershipTransferred", 
-        args: { 
-          previousOwner: testAddress1, 
-          newOwner: testAddress2, 
-        }, 
-        address: testContractAddress, 
+        name: "OwnershipTransferred",
+        args: {
+          previousOwner: testAddress1,
+          newOwner: testAddress2,
+        },
+        address: testContractAddress,
       };
-      
+
       mockTxEvent.filterLog = jest.fn().mockReturnValue([mockOwnershipTransferEvent]);
       const findings = await handleTransaction(mockTxEvent);
 
@@ -64,14 +63,14 @@ describe("contract ownership transfer agent", () => {
           severity: FindingSeverity.Info,
           type: FindingType.Info,
           metadata: {
-              previousOwner: mockPreviousOwner.toLowerCase(),
-              newOwner: mockNewOwner.toLowerCase()
+            previousOwner: mockPreviousOwner.toLowerCase(),
+            newOwner: mockNewOwner.toLowerCase(),
           },
-          addresses: [mockContractAddress]
-          })
+          addresses: [mockContractAddress],
+        }),
       ]);
       expect(mockTxEvent.filterLog).toHaveBeenCalledTimes(1);
       expect(mockTxEvent.filterLog).toHaveBeenCalledWith(TRANSFER_OWNER_EVENT);
     });
   });
-}); 
+});

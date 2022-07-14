@@ -1,7 +1,8 @@
 {
-  "name": "forta-agent-starter",
+  "name": "ethereum-detect-ownership-transfer-events",
   "version": "0.0.1",
-  "description": "Forta Agent Typescript starter project",
+  "description": "Forta Bot that detects when an ownership transfer event has been emitted.",
+  "respository": "https://github.com/FrazerChard/detect-ownership-transfer/",
   "chainIds": [
     1
   ],
@@ -21,7 +22,8 @@
     "disable": "forta-agent disable",
     "enable": "forta-agent enable",
     "keyfile": "forta-agent keyfile",
-    "test": "jest"
+    "test": "jest",
+    "format": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
     "ethereumjs-util": "^7.1.5",
@@ -32,6 +34,7 @@
     "@types/nodemon": "^1.19.0",
     "jest": "^27.0.6",
     "nodemon": "^2.0.8",
+    "prettier": "^2.7.1",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.4"
   }
